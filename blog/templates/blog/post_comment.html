@@ -1,0 +1,29 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+ <br><br>
+        <hr>
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            {% if request.user.is_authenticated %}
+                <input type="submit" value="Submit" class="btn btn-outline-success">
+            {% else %}
+                <input type="submit" value="Submit" class="btn btn-outline-success" disabled>
+            {% endif %}
+        </form>
+
+
+        <div class="main-comment-section">
+            {{ comments.count }} Comment{{ comments|pluralize }}
+            {% for comment in comments %}
+                <blockquote class="blockquote">
+                    <p class="mb-0">{{ comment.content }}</p>
+                    <footer class="blockquote-footer">by <cite title="Source Title">{{ comment.user|capfirst }}</cite></footer>
+                </blockquote>
+            {% endfor %}
+
+        </div>
+
+{% endblock %}
